@@ -1,6 +1,7 @@
 using AutoFixture;
 using NUnit.Framework;
 using ObjectComparer;
+using ObjectComparer.Model;
 
 namespace ObjectComparerTests
 {
@@ -17,14 +18,15 @@ namespace ObjectComparerTests
         public void GivenObject_WhenObjectAreSimilar_ThenReturnTrue()
         {
             //Arrange
-            Student Student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
-            Student Student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+            Student student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+            Student student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
             bool expectedOutput = true;
+
             //Act
-            bool actualOutput = Utility.AreEqual(Student1, Student2);
+            bool actualOutput = Utility.AreEqual(student1, student2);
 
             //Assert
-            Assert.AreEqual(expectedOutput, actualOutput);
+            Assert.IsTrue(actualOutput);
         }
 
 
@@ -32,42 +34,61 @@ namespace ObjectComparerTests
         public void GivenObject_WhenObjectAreSimilarButOrderIsDiffrent_ThenReturnTrue()
         {
             //Arrange
-            Student Student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
-            Student Student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 90, 80, 100 } };
-            bool expectedOutput = true;
+            Student student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+            Student student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 90, 80, 100 } };
+
             //Act
-            bool actualOutput = Utility.AreEqual(Student1, Student2);
+            bool actualOutput = Utility.AreEqual(student1, student2);
+            //bool actualOutput = Utility.ComparGenerice(student1, student2);
 
             //Assert
-            Assert.AreEqual(expectedOutput, actualOutput);
+            Assert.IsTrue(actualOutput);
+
+        }
+
+
+        [TestCase(TestName = "Compare when object type is same but property value count is diffrent")]
+        public void GivenObject_WhenObjectPropertyHasDiffrentValueCount_ThenReturnFalse()
+        {
+            //Arrange
+            Student student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+            Student student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 100 } };
+
+            //Act
+            bool actualOutput = Utility.AreEqual(student1, student2);
+            //bool actualOutput = Utility.ComparGenerice(student1, student2);
+
+            //Assert
+            Assert.IsFalse(actualOutput);
         }
 
         [TestCase(TestName = "Compare when object type is same but property value is diffrent")]
         public void GivenObject_WhenObjectPropertyHasDiffrentValue_ThenReturnFalse()
         {
             //Arrange
-            Student Student1 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
-            Student Student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
-            bool expectedOutput = false;
+            Student student1 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
+            Student student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+
             //Act
-            bool actualOutput = Utility.AreEqual(Student1, Student2);
+
+            bool actualOutput = Utility.AreEqual(student1, student2);
 
             //Assert
-            Assert.AreEqual(expectedOutput, actualOutput);
+            Assert.IsFalse(actualOutput);
         }
 
         [TestCase(TestName = "Compare when objects are of diffrent types")]
         public void GivenObject_WhenObjectAreDiffrent_ThenReturnFalse()
         {
             //Arrange
-            Student Student1 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
-            College College1 = new College() { Name = "College Name", Id = 121, Address="Pune, Maharastra" };
-            bool expectedOutput = false;
+            Student student1 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
+            var college1 = new { Name = "College Name", Id = 121, Address = "Pune, Maharastra" };
+
             //Act
-            bool actualOutput = Utility.AreEqual(Student1, College1);
+            bool actualOutput = Utility.AreEqual(student1, college1);
 
             //Assert
-            Assert.AreEqual(expectedOutput, actualOutput);
+            Assert.IsFalse(actualOutput);
         }
     }
 }

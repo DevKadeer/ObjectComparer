@@ -1,4 +1,5 @@
-﻿using System; 
+﻿using ObjectComparer.Model;
+using System;
 
 namespace ObjectComparer
 {
@@ -6,56 +7,30 @@ namespace ObjectComparer
     {
         public static void Main(string[] args)
         {
-            Student Student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
-            Student Student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 90, 80, 100 } };
+            var student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
+            var student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
 
-            Student Student3 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
-            Student Student4 = new Student() { Name = "John", Id = 100, Marks = new[] { 100, 90, 80 } };
-            Student Student5 = new Student() { Name = "John", Id = 100, Marks = new[] { 90, 80, 100 } };
+            var student3 = new Student() { Name = "John", Id = 101, Marks = new[] { 80, 90, 100 } };
+            var student4 = new Student() { Name = "John", Id = 100, Marks = new[] { 100, 90, 80 } };
+            var student5 = new Student() { Name = "John", Id = 100, Marks = new[] { 90, 80 } };
 
-
-            //if (Compare<Student>(Student1, Student2))
-            //    Console.WriteLine("Both objects are equal");
-            //else
-            //    Console.WriteLine("Both objects are not equal");
-            ////if (Compare<Student>(Student1, Student3))
-            ////    Console.WriteLine("Both objects are equal");
-            ////else
-            ////    Console.WriteLine("Both objects are not equal");
-            //if (Compare<Student>(Student1, Student2))
-            //    Console.WriteLine("Both objects are equal");
-            //else
-            //    Console.WriteLine("Both objects are not equal");
-            //var result = Utility.Compare(Student1, Student2);
-            //var output = result ? "Both objects are equal" : "Both objects are NOT equal";
-            ////Console.WriteLine(output);
-
-            bool result = Utility.AreEqual(Student1, Student2);
+            bool result = Utility.AreEqual(student1, student2);
             string output = result ? "Both objects are equal" : "Both objects are NOT equal";
-            Console.WriteLine(output);
+            Console.WriteLine(output); //should return equal
 
-            //result = Student1.CompareTo(Student2);
-            //output = result ? "Both objects are equal" : "Both objects are NOT equal";
-            //Console.WriteLine(output);
-            //if (Compare<Student>(Student1, Student5))
-            //    Console.WriteLine("Both objects are equal");
-            //else
-            //    Console.WriteLine("Both objects are not equal");
-            //Console.Read();
+            result = Utility.AreEqual(student1, student3);
+            output = result ? "Both objects are equal" : "Both objects are NOT equal";
+            Console.WriteLine(output); //should return NOT equal
+
+            result = Utility.AreEqual(student1, student4);
+            output = result ? "Both objects are equal" : "Both objects are NOT equal";
+            Console.WriteLine(output); //should return equal
+
+            result = Utility.AreEqual(student1, student5);
+            output = result ? "Both objects are equal" : "Both objects are NOT equal";
+            Console.WriteLine(output); //should return NOT equal
         }
 
 
-    }
-    public class Student
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int[] Marks { get; set; }
-    }
-    public class College
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
     }
 }

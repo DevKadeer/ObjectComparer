@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace ObjectComparer.Extensions
 {
@@ -66,17 +64,6 @@ namespace ObjectComparer.Extensions
             if (parent.IsGenericType && shouldUseGenericType)
                 parent = parent.GetGenericTypeDefinition();
             return parent;
-        }
-
-
-        public static bool IsNullablePrimitive(this Type type)
-        {
-            return Nullable.GetUnderlyingType(type) != null;
-        }
-
-        public static bool IsNullablePrimitive(this PropertyInfo type)
-        {
-            return Nullable.GetUnderlyingType(type.PropertyType) != null;
         }
     }
 }

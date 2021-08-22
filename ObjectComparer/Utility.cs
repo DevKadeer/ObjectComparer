@@ -3,40 +3,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ObjectComparer
 {
     public static class Utility
     {
-        public static bool ComparGenerice<T>(T Object1, T object2)
+        public static readonly List<string> PrimitiveTypesExceptByte = new List<string>
         {
-            //Get the type of the object
-            Type type = typeof(T);
-
-            //return false if any of the object is false
-            if (Object1 == null || object2 == null)
-                return false;
-
-            //Loop through each properties inside class and get values for the property from both the objects and compare
-            foreach (System.Reflection.PropertyInfo property in type.GetProperties())
-            {
-                if (property.Name != "ExtensionData")
-                {
-                    string Object1Value = string.Empty;
-                    string Object2Value = string.Empty;
-                    if (type.GetProperty(property.Name).GetValue(Object1, null) != null)
-                        Object1Value = type.GetProperty(property.Name).GetValue(Object1, null).ToString();
-                    if (type.GetProperty(property.Name).GetValue(object2, null) != null)
-                        Object2Value = type.GetProperty(property.Name).GetValue(object2, null).ToString();
-                    if (Object1Value.Trim() != Object2Value.Trim())
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+            $"System.{nameof(String)}",$"System.{nameof(Decimal)}",$"System.{nameof(Double)}",$"System.{nameof(Single)}",
+            $"System.{nameof(Int64)}",$"System.{nameof(Int32)}",$"System.{nameof(Int16)}",
+            $"System.{nameof(UInt64)}",$"System.{nameof(UInt32)}",$"System.{nameof(UInt16)}" ,
+            $"System.{nameof(Boolean)}",$"System.{nameof(DateTime)}",$"System.{nameof(Enum)}"
+            ,$"System.{nameof(Char)}"
+        };
         public static bool AreEqual(object first, object second)
         {
             if (first == null || second == null)
@@ -58,6 +37,14 @@ namespace ObjectComparer
                     return comparable.CompareTo(second) == 0;
                 case IEnumerable enumerable:
                     {
+                        var isFirstPrimitive = PrimitiveTypesExceptByte.Contains(first.GetType().GetElementType().FullName);
+                        var isSecondPrimitive = PrimitiveTypesExceptByte.Contains(second.GetType().GetElementType().FullName);
+
+                        if (isFirstPrimitive == isSecondPrimitive)
+                        {
+                            return ScrambledEquals(enumerable, (IEnumerable)second);
+                        }
+
                         var expectEnumerator = enumerable.GetEnumerator();
                         var actualEnumerator = ((IEnumerable)second).GetEnumerator();
 
@@ -114,6 +101,7 @@ namespace ObjectComparer
 
             return true;
         }
+
         public static bool Compare(object first, object second)
         {
             var firstType = first.GetType();
@@ -139,10 +127,11 @@ namespace ObjectComparer
 
             return first.Equals(second);
         }
-        public static bool ScrambledEquals<T>(IEnumerable<T> list1, IEnumerable<T> list2, IEqualityComparer<T> comparer)
+
+        public static bool ScrambledEquals(IEnumerable list1, IEnumerable list2)
         {
-            var cnt = new Dictionary<T, int>(comparer);
-            foreach (T s in list1)
+            var cnt = new Dictionary<object, int>();
+            foreach (object s in list1)
             {
                 if (cnt.ContainsKey(s))
                 {
@@ -153,7 +142,7 @@ namespace ObjectComparer
                     cnt.Add(s, 1);
                 }
             }
-            foreach (T s in list2)
+            foreach (object s in list2)
             {
                 if (cnt.ContainsKey(s))
                 {
