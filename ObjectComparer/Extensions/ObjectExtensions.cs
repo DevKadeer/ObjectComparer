@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace SimilarObjectComparer.Extensions
+namespace ObjectComparer.Extensions
 {
     public static class ObjectExtensions
     {

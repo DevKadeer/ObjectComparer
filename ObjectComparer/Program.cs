@@ -1,6 +1,6 @@
 ﻿using System; 
 
-namespace SimilarObjectComparer
+namespace ObjectComparer
 {
     public class Program
     {

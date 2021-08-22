@@ -1,8 +1,8 @@
 using AutoFixture;
 using NUnit.Framework;
-using SimilarObjectComparer;
+using ObjectComparer;
 
-namespace SimilarObjectComparerTests
+namespace ObjectComparerTests
 {
     [TestFixture]
     public class ObjectComparerTests

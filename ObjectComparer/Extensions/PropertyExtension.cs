@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SimilarObjectComparer.Extensions
+namespace ObjectComparer.Extensions
 {
     public static class PropertyExtension
     {

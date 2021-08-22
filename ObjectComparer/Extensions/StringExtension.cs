@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimilarObjectComparer.Extensions
+namespace ObjectComparer.Extensions
 {
     public static class StringExtension
     {
