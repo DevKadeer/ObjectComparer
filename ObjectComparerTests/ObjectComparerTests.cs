@@ -20,7 +20,6 @@ namespace ObjectComparerTests
             //Arrange
             Student student1 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
             Student student2 = new Student() { Name = "John", Id = 100, Marks = new[] { 80, 90, 100 } };
-            bool expectedOutput = true;
 
             //Act
             bool actualOutput = Utility.AreEqual(student1, student2);

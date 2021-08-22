@@ -37,33 +37,7 @@ namespace ObjectComparer
                     return comparable.CompareTo(second) == 0;
                 case IEnumerable enumerable:
                     {
-                        var isFirstPrimitive = PrimitiveTypesExceptByte.Contains(first.GetType().GetElementType().FullName);
-                        var isSecondPrimitive = PrimitiveTypesExceptByte.Contains(second.GetType().GetElementType().FullName);
-
-                        if (isFirstPrimitive == isSecondPrimitive)
-                        {
-                            return ScrambledEquals(enumerable, (IEnumerable)second);
-                        }
-
-                        var expectEnumerator = enumerable.GetEnumerator();
-                        var actualEnumerator = ((IEnumerable)second).GetEnumerator();
-
-                        var canGetExpectMember = expectEnumerator.MoveNext();
-                        var canGetActualMember = actualEnumerator.MoveNext();
-
-                        while (canGetExpectMember && canGetActualMember)
-                        {
-                            var isEqual = AreEqual(expectEnumerator.Current, actualEnumerator.Current);
-                            if (!isEqual)
-                            {
-                                return false;
-                            }
-
-                            canGetExpectMember = expectEnumerator.MoveNext();
-                            canGetActualMember = actualEnumerator.MoveNext();
-                        }
-
-                        return canGetExpectMember == canGetActualMember;
+                        return listEqualsWithoutOrder(enumerable, (IEnumerable)second);
                     }
             }
 
@@ -128,7 +102,7 @@ namespace ObjectComparer
             return first.Equals(second);
         }
 
-        public static bool ScrambledEquals(IEnumerable list1, IEnumerable list2)
+        public static bool listEqualsWithoutOrder(IEnumerable list1, IEnumerable list2)
         {
             var cnt = new Dictionary<object, int>();
             foreach (object s in list1)
