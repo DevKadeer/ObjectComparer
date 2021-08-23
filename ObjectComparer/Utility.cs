@@ -13,8 +13,8 @@ namespace ObjectComparer
             $"System.{nameof(String)}",$"System.{nameof(Decimal)}",$"System.{nameof(Double)}",$"System.{nameof(Single)}",
             $"System.{nameof(Int64)}",$"System.{nameof(Int32)}",$"System.{nameof(Int16)}",
             $"System.{nameof(UInt64)}",$"System.{nameof(UInt32)}",$"System.{nameof(UInt16)}" ,
-            $"System.{nameof(Boolean)}",$"System.{nameof(DateTime)}",$"System.{nameof(Enum)}"
-            ,$"System.{nameof(Char)}"
+            $"System.{nameof(Boolean)}",$"System.{nameof(DateTime)}",$"System.{nameof(Enum)}",
+            $"System.{nameof(Char)}"
         };
         public static bool AreEqual(object first, object second)
         {
